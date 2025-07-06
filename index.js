@@ -33,21 +33,20 @@ app.post("/api/email", (req, res) => {
 
     db.query(sql1, [email], (error, result) => {
         if(error){
-            res.json({response : 'Database error'});
+            return res.json({response : 'Database error'});
         }
         if(result.length > 0){
-            res.json({response : 'You have already subscribed'});
-        }else{
+            return res.json({response : 'You have already subscribed'});
+        }
 
             const sql2 = "INSERT INTO subscribers (email) VALUES (?)";
             db.query(sql2, [email], (error, result) => {
                 if(error){
-                    res.json({response : "Database error"});
+                    return res.json({response : "Database error"});
                 }else{
-                    res.json({response : "Thank you for subscribing Ampte B Marak's blog!"});
+                    return res.json({response : "Thank you for subscribing Ampte B Marak's blog!"});
                 };
             });
-        };
     });
 });
 
