@@ -17,8 +17,11 @@ const db = mysql.createConnection({
 });
 
 db.connect((error) => {
-    if(error) throw error;
-    console.log("Connected to Database");
+    if(error){
+        console.error(error);
+    }else{
+        console.log("Connected to Database");
+    };
 });
 
 app.get("/", (req, res) => {
