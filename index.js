@@ -12,11 +12,14 @@ const db = mysql.createConnection({
 });
 
 db.connect((error) => {
-    if(error){
-        console.log("Cannot connect to database");
-    }else{
-        console.log("Connected to database");
-    };
+    if(error) throw error;
+    console.log("Connected to Database");
+
+    const sql = "CREATE TABLE subscribers (id INT AUTO_INCREMENT PRIMARY KEY, email VARCHAR(255))";
+    db.query(sql, (err, result) => {
+        if(err) throw err;
+        console.log("Table created");
+    });
 });
 
 app.get("/", (req, res) => {
