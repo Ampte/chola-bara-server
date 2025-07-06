@@ -29,7 +29,7 @@ app.get("/", (req, res) => {
 app.post("/api/email", (req, res) => {
     const {email} = req.body;
 
-    const sql1 = "SELECT * FROM subscribers";
+    const sql1 = "SELECT * FROM subscribers WHERE email = ?";
 
     db.query(sql1, [email], (error, result) => {
         if(error){
