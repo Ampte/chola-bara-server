@@ -1,15 +1,16 @@
 const express = require("express");
-const app = express();
-const port = 3000;
 const mysql = require("mysql");
 const cors = require("cors");
+const app = express();
+const port = 3000;
 
 
 app.use(cors());
 app.use(express.json());
 
 
-const db = mysql.createConnection({
+const db = mysql.createPool({
+    connectionLimit: 10,
     host: process.env.DB_HOST,
     user: process.env.DB_USER,
     password: process.env.DB_PASSWORD,
@@ -18,17 +19,7 @@ const db = mysql.createConnection({
 });
 
 
-db.connect((error) => {
-    if(error){
-        console.error("Error connectiing to Database", error.code);
-        if(error.code === "ECONNRESET");{
-            console.error("Connection was reset. Check the server health.");
-        }
-    }else{
-        console.log("Connected to Database.");
-    };
 
-});
 app.get("/", (req, res) => {
     res.sendFile(__dirname + "/index.html");
 });
