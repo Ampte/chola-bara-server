@@ -13,17 +13,22 @@ const db = mysql.createConnection({
     host: process.env.DB_HOST,
     user: process.env.DB_USER,
     password: process.env.DB_PASSWORD,
-    database: process.env.DB_NAME
+    database: process.env.DB_NAME,
+    connectTimeout: 10000
 });
+
 
 db.connect((error) => {
     if(error){
-        console.error(error);
+        console.error("Error connectiing to Database", error.code);
+        if(error.code === "ECONNRESET");{
+            console.error("Connection was reset. Check the server health.");
+        }
     }else{
-        console.log("Connected to Database");
+        console.log("Connected to Database.");
     };
-});
 
+});
 app.get("/", (req, res) => {
     res.sendFile(__dirname + "/index.html");
 });
