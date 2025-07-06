@@ -29,16 +29,24 @@ app.get("/", (req, res) => {
 app.post("/api/email", (req, res) => {
     const {email} = req.body;
 
-    const sql = "INSERT INTO subscribers (email) VALUES (?)";
+    const sql1 = "SELECT * FROM subscribers";
 
-    db.query(sql, [email], (error, result) => {
+    db.query(sql1, [email], (error, result) => {
         if(error){
-            res.json({response : 'Database Error'});
+            res.json({response : 'Database error'});
         }
         if(result.length > 0){
             res.json({response : 'You have already subscribed'});
         }else{
-            res.json({response : "Thank you for subscribing Ampte B Marak's blog!"})
+
+            const sql2 = "INSERT INTO subscribers (email) VALUES (?)";
+            db.query(sql2, [email], (error, result) => {
+                if(error){
+                    res.json({response : "Database error"});
+                }else{
+                    res.json({response : "Thank you for subscribing Ampte B Marak's blog!"});
+                };
+            });
         };
     });
 });
